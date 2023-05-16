@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Description: This script is used to expand battery life by applying some powersaving tweaks.
+# Dependency: cpupower, wireless-tools
+
+# set cpu governor to powersave
+sudo cpupower frequency-set -g powersave > /dev/null
+
+# disable bluetooth
+sudo systemctl stop bluetooth.service
+
+# enable Wi-Fi power management
+sudo iwconfig wlo1 power on
+
+# enable SATA power management
+sudo hdparm -B 1 /dev/sda 
+
+# enable USB autosuspend
+for usb_device in /sys/bus/usb/devices/*/power/control; do
+    echo 'auto' | sudo tee "$usb_device" > /dev/null
+done
+
+# enable PCIe ASPM to auto
+for pcie_device in /sys/bus/pci/devices/*/power/control; do
+    echo 'auto' | sudo tee "$pcie_device" > /dev/null
+done
+
+# disable NMI watchdog
+echo '0' | sudo tee /proc/sys/kernel/nmi_watchdog > /dev/null
+
+# disable Wake-on-Timer
+echo '0' | sudo tee /sys/class/rtc/rtc0/wakealarm > /dev/null
+
+# enable runtime PM for selected devices
+for device in /sys/bus/usb/devices/*/power/control; do
+    echo 'auto' | sudo tee "$device" > /dev/null
+done

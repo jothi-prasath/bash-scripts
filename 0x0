@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Description: This script uploads argument(file/url/standard-output) to 0x0.st and provide a shareable url link.
+# Dependency: xclip, curl
+
+# Prints an error message to stderr
+print_error() {
+  echo "Error: $1" >&2
+  exit 1
+}
+
+# Prints an help message 
+print_help() {
+	echo "0x0, a wrapper script for https://0x0.st/"
+  echo "  Upload a file:"
+  echo "      0x0 [filename]"
+  echo "  Upload from an URL (the file won't be fetched locally):"
+  echo "      0x0 [url]"
+  echo "  Upload from standard input:"
+  echo "      0x0 -"
+  echo "The uploaded file's URL is printed to standard output when the upload is completed."
+}
+
+# Check if xclip is installed
+if ! command -v xclip >/dev/null 2>&1; then
+  echo "Error: 'xclip' is not installed. Please install it using your package manager."
+  exit 1
+fi
+
+case "${1:-}" in
+  # Exit with code 0 only if help was explicitly requested
+  -h|--help)
+    print_help
+    exit 0
+    ;;
+  '')
+    print_help
+    exit 1
+    ;;
+esac
+
+# Upload from file and standard output
+if [[ -f "$1" || "$1" = '-' ]]; then
+  # Upload from file or stdin
+  curl --fail -F "file=@$1" -- https://0x0.st | xclip -i -sel clipboard
+  echo
+  xclip -sel clipboard -o
+  exit
+
+# Upload from urls
+elif [[ "$1" =~ ^https?://.* ]]; then
+  curl --fail -F "url=$1" -- https://0x0.st | xclip -i -sel clipboard 
+  echo
+  xclip -sel clipboard -o
+  exit
+
+elif [[ -d "$1" ]]; then
+  print_error "\"$1\" is a directory."
+else
+  print_error "\"$1\": no such file."
+fi
