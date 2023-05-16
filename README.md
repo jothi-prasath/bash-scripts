@@ -17,6 +17,8 @@ Here's a list of scripts available in this repository:
 
 1. powersave - Power saving tweaks
 2. 0x0 - Command-line tool for uploading file/url/standard-output to 0x0.st
+3. jpg2heic - This script converts all .jpg format in current directory to .heic format.
+4. heic2jpg - This script converts all .heic format in current directory to .jpg format.
 
 Please refer to the comments within each script file for a detailed explanation of its purpose, usage, and any requirements or dependencies.
 

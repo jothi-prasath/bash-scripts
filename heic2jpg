@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Description: This script converts all .heic format in current directory to .jpg format.
+# Dependency: imagemagick
+
+count=0
+total=$(ls -1 *.heic | wc -l)
+for file in *.heic; do
+	convert "$file" "${file%.heic}.jpg"
+	count=$((count+1))
+	echo "Converted file $count of $total: $file"
+done
