@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Description: This script sets tdp for ryzen processors using ryzenadj.
+# Dependency: ryzenadj(https://github.com/FlyGoat/RyzenAdj) 
+
+# checks whether ryzenadj is installed
+if ! command -v ryzenadj >/dev/null 2>&1; then
+  echo "Error: 'ryzenadj' is not installed. Please install it."
+  exit 1
+fi
+
+# Prints an help message 
+print_help() {
+	echo "set-tdp, sets tdp for ryzen processors"
+  echo "  Set a tdp:"
+  echo "      set-tdp [value]"
+  echo "      example: set-tdp 15"
+}
+
+case "${1:-}" in
+  # Exit with code 0 only if help was explicitly requested
+  -h|--help)
+    print_help
+    exit 0
+    ;;
+  '')
+    print_help
+    exit 1
+    ;;
+esac
+
+# checks the argument is integer
+if [[ $1 =~ ^[0-9]+$ ]]; then
+  tdp=$1
+  # sets tdp using ryzenadj
+  sudo ryzenadj --stapm-limit=$tdp --fast-limit=$tdp --slow-limit=$tdp
+else
+  print_help
+fi
+
+
+
