@@ -1,4 +1,4 @@
-# My Bash Script Collection
+# Bash Script Collection
 
 Welcome to My Bash Script Collection repository! This repository contains a collection of useful Bash scripts that I have created for various purposes. These scripts are designed to automate tasks, simplify workflows, and improve productivity in a Linux environment.
 
