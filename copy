@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Description: This script copies the input which is passed through pipe.
+# Dependency: xclip
+
+# checks whether xclip is installed
+if ! command -v xclip >/dev/null 2>&1; then
+  echo "Error: 'xclip' is not installed. Please install it."
+  exit 1
+fi
+
+# Prints an help message 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "It copies the input passed through a pipe to the clipboard using xclip."
+    echo "Usage: "
+    echo "      [command] | copy"
+    echo "Example: "
+    echo "      cat log.txt | copy"
+    echo "      ls | copy"
+# checks the file descriptor associated with standard input using the option -t (0)
+elif [[ ! -t 0 ]]; then
+    # copying the input into clipboard
+    xclip -sel clip
+    echo "copied!!"
+else
+    echo "No value passed through pipe"
+fi
