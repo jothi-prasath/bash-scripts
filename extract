@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Description: This script extracts various archive file formats based on their extension.
+# Dependency: zip, tar, 7z, xz, gzip
+
+# Prints an help message 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "This script extracts various archive file formats based on their extension."
+    echo "Usage: "
+    echo "      extract [filename] "
+    echo "Example: "
+    echo "      extract documents.zip"
+    exit 0
+fi
+
+# Check if tar is installed
+if ! command -v tar >/dev/null 2>&1; then
+  echo "Error: 'tar' is not installed. Please install it using your package manager."
+  exit 1
+fi
+
+# Check if 7z is installed
+if ! command -v 7z >/dev/null 2>&1; then
+  echo "Error: 'p7zip' is not installed. Please install it using your package manager."
+  exit 1
+fi
+
+# Check if xz is installed
+if ! command -v xz >/dev/null 2>&1; then
+  echo "Error: 'xz' is not installed. Please install it using your package manager."
+  exit 1
+fi
+
+# Check if a file is provided
+if [ -z "$1" ]; then
+  echo "Error: Please provide a file to extract."
+  exit 1
+fi
+
+# checks if the file exist
+if [ ! -f "$1" ]; then
+    echo "File does not exist."
+    exit 1
+fi
+
+
+# Extract the file based on its extension
+file_extension=$(echo "$1" | sed 's/.*\.//')
+case "$file_extension" in
+  zip)
+    unzip "$1"
+    ;;
+  tar)
+    tar xvf "$1"
+    ;;
+  tar.gz | tgz)
+    tar xzvf "$1"
+    ;;
+  tar.bz2)
+    tar xjvf "$1"
+    ;;
+  tar.xz | txz)
+    tar Jxvf "$1"
+    ;;
+  tar.lzma | taz)
+    tar --lzma -xvf "$1"
+    ;;
+  tar.Z)
+    tar Zxvf "$1"
+    ;;
+  tar.lzo)
+    tar --lzop -xvf "$1"
+    ;;
+  tar.lz)
+    tar --lzip -xvf "$1"
+    ;;
+  tar.lrz)
+    tar --lrzip -xvf "$1"
+    ;;
+  7z)
+    7z x "$1"
+    ;;
+  gz)
+    gzip -dv "$1"
+    ;;
+  xz)
+    xz -dv "$1"
+    ;;
+  *)
+    echo "Error: Unsupported file extension."
+    exit 1
+    ;;
+esac
+
+# checks the extraction completed without any errors
+if [[ $? == 0 ]]; then
+  echo "Extraction completed!"
+  exit 0
+else
+  echo "Extraction failed!"
+  exit 1
+fi
