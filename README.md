@@ -44,7 +44,7 @@ To use any of the scripts in this repository, follow these steps:
     ```
 4. (optional) If you want you can directly copy these scripts to your system
     ```bash
-    sudo cp -v !(README.md) /usr/local/bin
+    sudo cp -pv !(README.md) /usr/local/bin
     ```
     After completing this steps, you should be able to execute the scripts from anywhere in the terminal by simply typing their names.
 Please make sure to read the comments within the script file for any additional requirements or instructions specific to that script.
