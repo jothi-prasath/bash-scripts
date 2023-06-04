@@ -26,7 +26,8 @@ Here's a list of scripts available in this repository:
 7. extract - Script that extracts various archive file formats based on their extension.
 8. extract-audio - Script that extracts audio from video using ffmpeg.
 9. add-ssh-key - Script that add public SSH key to authorized_keys for SSH key-based authentication.
-10. compress - script that highly compresses files and folders using 7z.
+10. compress - Script that highly compresses files and folders using 7z.
+11. sysinfo-archive - Script that gathers comprehensive system information, including hardware, software, network, configuration, and creates a archive.
 
 Please refer to the comments within each script file for a detailed explanation of its purpose, usage, and any requirements or dependencies.
 
