@@ -7,7 +7,8 @@ Feel free to explore the scripts and use them according to your needs. Each scri
 ## Table of Contents
 
 - [Scripts](#scripts)
-- [Usage](#usage)
+- [Quick Setup](#quick-setup)
+- [Manual Setup](#manual-setup)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -28,7 +29,23 @@ Here's a list of scripts available in this repository:
 
 Please refer to the comments within each script file for a detailed explanation of its purpose, usage, and any requirements or dependencies.
 
-## Usage
+## Quick Setup
+1. Clone the repository to your local machine using the following command:
+
+   ```bash
+   git clone https://github.com/jothi-prasath/bash-scripts.git
+   ```
+2. Navigate to the script's directory:
+    ```bash
+    cd bash-scripts
+    ```
+3. Symbolic link all the scripts into your system:
+    ```bash
+    sudo ./linker.sh
+    ```
+    The linker.sh script creates symbolic links from the current folder's scripts to the /usr/local/bin directory, allowing you to execute the scripts from anywhere in the terminal by simply typing their names. This method enables easy upgrades using git pull in the future.
+
+## Manual Setup
 
 To use any of the scripts in this repository, follow these steps:
 
@@ -47,10 +64,16 @@ To use any of the scripts in this repository, follow these steps:
     ```
 4. (optional) If you want you can directly copy these scripts to your system
     ```bash
-    sudo cp -pv !(.git|README.md|LICENSE) /usr/local/bin
+    sudo cp -pv !(.git|.gitignore|README.md|LICENSE|*.sh) /usr/local/bin
     ```
     After completing this steps, you should be able to execute the scripts from anywhere in the terminal by simply typing their names.
-Please make sure to read the comments within the script file for any additional requirements or instructions specific to that script.
+
+    Please make sure to read the comments within the script file for any additional requirements or instructions specific to that script.
+
+## Dependency
+Some of the scripts in this repository may have dependencies on external tools or packages. Before running these scripts, make sure you have the necessary dependencies installed on your system. The specific dependencies required for each script can be found within the individual script files themselves.
+
+In future I will try to make these scripts to auto install the required dependencies when needed. 
 
 ## Contributing
 Contributions to this repository are welcome! If you have a useful Bash script that you would like to share, feel free to open a pull request. Before submitting a pull request, make sure to:
