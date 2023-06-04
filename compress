@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Description: This script highly compresses files and folders using 7z.
+# Dependency: 7z
+
+#7z Options for highly compress
+algo="-m0=lzma2"
+compresslevel="-mx=9"
+threading="-mmt"
+issolid="-ms"
+
+# Prints an error message to stderr
+print_error() {
+  echo "Error: $1" >&2
+  exit 1
+}
+
+# Prints an help message 
+print_help() {
+	echo "compress, It highly compress files and folders using 7z"
+  echo "  Usage:"
+  echo "      compress [input-filename/foldername] [output-filename]"
+}
+
+# Check if 7z is installed
+if ! command -v 7z >/dev/null 2>&1; then
+  echo "Error: 'p7zip' is not installed. Please install it using your package manager."
+  exit 1
+fi
+
+case "${1:-}" in
+  # Exit with code 0 only if help was explicitly requested
+  -h|--help)
+    print_help
+    exit 0
+    ;;
+  '')
+    print_help
+    exit 1
+    ;;
+esac
+
+# checks the file exist and compress the files
+if [ -f "$1" ] || [ -d "$1" ]; then
+  if [[ "$2" != "" ]]; then
+    7z a "$2.7z" "$1" "$algo" "$compresslevel" -aoa "$threading" "$issolid"
+  else
+    print_error "\"$2\": no output file-name given."
+  fi
+else
+  print_error "\"$1\": no such file/folder."
+fi
