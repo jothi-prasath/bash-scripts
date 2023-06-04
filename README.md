@@ -23,6 +23,7 @@ Here's a list of scripts available in this repository:
 6. copy - Script that copies the input which is passed through pipe.
 7. extract - Script that extracts various archive file formats based on their extension.
 8. extract-audio - Script that extracts audio from video using ffmpeg.
+9. add-ssh-key - Script that add public SSH key to authorized_keys for SSH key-based authentication.
 
 Please refer to the comments within each script file for a detailed explanation of its purpose, usage, and any requirements or dependencies.
 

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Description: This script add public SSH key to authorized_keys for SSH key-based authentication.
+
+# Prints an error message to stderr
+print_error() {
+  echo "Error: $1" >&2
+  exit 1
+}
+
+# Prints an help message 
+print_help() {
+	echo "add-ssh-key, adds an public SSH key to authorized_keys"
+  echo "  Usage:"
+  echo "      add-ssh-key"
+}
+
+case "${1:-}" in
+  # Exit with code 0 only if help was explicitly requested
+  -h|--help)
+    print_help
+    exit 0
+    ;;
+  '')
+    print_help
+    exit 1
+    ;;
+esac
+
+# Gets SSH key from user
+while [[ -z "$sshkey" ]]
+do
+    read -p "Enter Public SSH Key >> " sshkey
+done
+
+# Create ssh directory
+mkdir -p ~/.ssh
+
+# Add key to authorized_keys
+echo $sshkey >> ~/.ssh/authorized_keys
+
+# Fix permissions and ownership for ssh directory
+chmod -R go= ~/.ssh
+chown -R $USER:$USER ~/.ssh
