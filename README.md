@@ -9,6 +9,7 @@ Feel free to explore the scripts and use them according to your needs. Each scri
 - [Scripts](#scripts)
 - [Quick Setup](#quick-setup)
 - [Manual Setup](#manual-setup)
+- [Dependency](#dependency)
 - [Contributing](#contributing)
 - [License](#license)
 
