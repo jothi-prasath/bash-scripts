@@ -18,7 +18,7 @@ print_help() {
 
 # Check if ffmpeg is installed
 if ! command -v ffmpeg >/dev/null 2>&1; then
-  echo "Error: 'xclip' is not installed. Please install it using your package manager."
+  echo "Error: 'ffmpeg' is not installed. Please install it using your package manager."
   exit 1
 fi
 
