@@ -28,6 +28,8 @@ Here's a list of scripts available in this repository:
 9. add-ssh-key - Script that add public SSH key to authorized_keys for SSH key-based authentication.
 10. compress - Script that highly compresses files and folders using 7z.
 11. sysinfo-archive - Script that gathers comprehensive system information, including hardware, software, network, configuration, and creates a archive.
+12. jpg2avif - Script that converts all .jpg format in current directory to .avif format.
+13. avif2jpg - Script that converts all .avif format in current directory to .jpg format.
 
 Please refer to the comments within each script file for a detailed explanation of its purpose, usage, and any requirements or dependencies.
 
