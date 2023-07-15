@@ -15,9 +15,9 @@ print_error() {
   exit 1
 }
 
-# Prints an help message 
+# Prints the help message 
 print_help() {
-	echo "compress, It highly compress files and folders using 7z"
+  echo "compress - Highly compress files and folders using 7z"
   echo "  Usage:"
   echo "      compress [input-filename/foldername] [output-filename]"
 }
@@ -40,13 +40,13 @@ case "${1:-}" in
     ;;
 esac
 
-# checks the file exist and compress the files
-if [ -f "$1" ] || [ -d "$1" ]; then
-  if [[ "$2" != "" ]]; then
-    7z a "$2.7z" "$1" "$algo" "$compresslevel" -aoa "$threading" "$issolid"
+# Check if input file/folder exists and compress it
+if [[ -f "$1" || -d "$1" ]]; then
+  if [[ -n "$2" ]]; then
+    7z a "$2.7z" "$1" $algo $compresslevel -aoa $threading $issolid
   else
-    print_error "\"$2\": no output file-name given."
+    print_error "No output file-name given."
   fi
 else
-  print_error "\"$1\": no such file/folder."
+  print_error "No such file/folder: $1"
 fi
