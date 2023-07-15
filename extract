@@ -3,7 +3,7 @@
 # Description: This script extracts various archive file formats based on their extension.
 # Dependency: zip, tar, 7z, xz, gzip
 
-# Prints an help message 
+# Print help message 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "This script extracts various archive file formats based on their extension."
     echo "Usage: "
@@ -13,23 +13,17 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     exit 0
 fi
 
-# Check if tar is installed
-if ! command -v tar >/dev/null 2>&1; then
-  echo "Error: 'tar' is not installed. Please install it using your package manager."
-  exit 1
-fi
+# Check if required commands are installed
+check_command() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "Error: '$1' is not installed. Please install it using your package manager."
+    exit 1
+  fi
+}
 
-# Check if 7z is installed
-if ! command -v 7z >/dev/null 2>&1; then
-  echo "Error: 'p7zip' is not installed. Please install it using your package manager."
-  exit 1
-fi
-
-# Check if xz is installed
-if ! command -v xz >/dev/null 2>&1; then
-  echo "Error: 'xz' is not installed. Please install it using your package manager."
-  exit 1
-fi
+check_command "tar"
+check_command "7z"
+check_command "xz"
 
 # Check if a file is provided
 if [ -z "$1" ]; then
@@ -37,63 +31,67 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-# checks if the file exist
+# Check if the file exists
 if [ ! -f "$1" ]; then
-    echo "File does not exist."
-    exit 1
+  echo "File does not exist."
+  exit 1
 fi
 
-
 # Extract the file based on its extension
-filename=$(echo "$1")
-case "$filename" in
-  *.zip)
-    unzip "$filename"
-    ;;
-  *.tar)
-    tar xvf "$filename"
-    ;;
-  *.tar.gz | tgz)
-    tar xzvf "$filename"
-    ;;
-  *.tar.bz2)
-    tar xjvf "$filename"
-    ;;
-  *.tar.xz | txz)
-    tar Jxvf "$filename"
-    ;;
-  *.tar.lzma | taz)
-    tar --lzma -xvf "$filename"
-    ;;
-  *.tar.Z)
-    tar Zxvf "$filename"
-    ;;
-  *.tar.lzo)
-    tar --lzop -xvf "$filename"
-    ;;
-  *.tar.lz)
-    tar --lzip -xvf "$filename"
-    ;;
-  *.tar.lrz)
-    tar --lrzip -xvf "$filename"
-    ;;
-  *.7z)
-    7z x "$filename"
-    ;;
-  *.gz)
-    gzip -dv "$filename"
-    ;;
-  *.xz)
-    xz -dv "$filename"
-    ;;
-  *)
-    echo "Error: Unsupported file extension."
-    exit 1
-    ;;
-esac
+extract_archive() {
+  local filename="$1"
+  case "$filename" in
+    *.zip)
+      unzip "$filename"
+      ;;
+    *.tar)
+      tar xvf "$filename"
+      ;;
+    *.tar.gz | *.tgz)
+      tar xzvf "$filename"
+      ;;
+    *.tar.bz2)
+      tar xjvf "$filename"
+      ;;
+    *.tar.xz | *.txz)
+      tar Jxvf "$filename"
+      ;;
+    *.tar.lzma | *.taz)
+      tar --lzma -xvf "$filename"
+      ;;
+    *.tar.Z)
+      tar Zxvf "$filename"
+      ;;
+    *.tar.lzo)
+      tar --lzop -xvf "$filename"
+      ;;
+    *.tar.lz)
+      tar --lzip -xvf "$filename"
+      ;;
+    *.tar.lrz)
+      tar --lrzip -xvf "$filename"
+      ;;
+    *.7z)
+      7z x "$filename"
+      ;;
+    *.gz)
+      gzip -dv "$filename"
+      ;;
+    *.xz)
+      xz -dv "$filename"
+      ;;
+    *)
+      echo "Error: Unsupported file extension."
+      exit 1
+      ;;
+  esac
+}
 
-# checks the extraction completed without any errors
-if [[ $? == 0 ]]; then
+# Extract the archive
+extract_archive "$1"
+
+# Check if the extraction completed without any errors
+if [[ $? -eq 0 ]]; then
   echo "Extraction completed!"
   exit 0
 else
