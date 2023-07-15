@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Description: This script converts all .avif format in current directory to .jpg format.
+# Dependency: imagemagick
+
+# Check if ImageMagick is installed
+if ! command -v convert &> /dev/null; then
+    echo "ImageMagick is required but not installed. Please install it first."
+    exit 1
+fi
+
+count=0
+skipped=0
+total=$(ls -1 *.avif 2>/dev/null | wc -l)
+if [[ $total -eq 0 ]]; then
+    echo "No .avif files found in the current directory."
+    exit 0
+fi
+
+for file in *.avif; do
+    if [[ -e "${file%.avif}.jpg" ]]; then
+        echo "Skipping conversion of $file. File ${file%.avif}.jpg already exists."
+				skipped=$((skipped+1))
+        continue
+    fi
+		# Converting into HEIC
+    convert "$file" "${file%.avif}.jpg"
+    if [[ $? -ne 0 ]]; then
+        echo "Error converting file: $file"
+    else
+        count=$((count+1))
+        echo "Converted file $count of $total: $file"
+    fi
+done
+
+echo "---------------------------"
+echo "Converted files: $count"
+echo "Skipped files  : $skipped"
+echo "---------------------------"
