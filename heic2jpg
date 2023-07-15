@@ -3,10 +3,37 @@
 # Description: This script converts all .heic format in current directory to .jpg format.
 # Dependency: imagemagick
 
+# Check if ImageMagick is installed
+if ! command -v convert &> /dev/null; then
+    echo "ImageMagick is required but not installed. Please install it first."
+    exit 1
+fi
+
 count=0
-total=$(ls -1 *.heic | wc -l)
+skipped=0
+total=$(ls -1 *.heic 2>/dev/null | wc -l)
+if [[ $total -eq 0 ]]; then
+    echo "No .heic files found in the current directory."
+    exit 0
+fi
+
 for file in *.heic; do
-	convert "$file" "${file%.heic}.jpg"
-	count=$((count+1))
-	echo "Converted file $count of $total: $file"
+    if [[ -e "${file%.heic}.jpg" ]]; then
+        echo "Skipping conversion of $file. File ${file%.heic}.jpg already exists."
+				skipped=$((skipped+1))
+        continue
+    fi
+		# Converting into HEIC
+    convert "$file" "${file%.heic}.jpg"
+    if [[ $? -ne 0 ]]; then
+        echo "Error converting file: $file"
+    else
+        count=$((count+1))
+        echo "Converted file $count of $total: $file"
+    fi
 done
+
+echo "---------------------------"
+echo "Converted files: $count"
+echo "Skipped files  : $skipped"
+echo "---------------------------"
