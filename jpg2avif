@@ -24,7 +24,7 @@ for file in *.jpg; do
         continue
     fi
 		# Converting into JPG
-    convert "$file" "${file%.jpg}.avif"
+    convert -auto-orient "$file" "${file%.jpg}.avif"
     if [[ $? -ne 0 ]]; then
         echo "Error converting file: $file"
     else
