@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Check if php command exists
+if command -v php &> /dev/null; then
+    echo "Installing..."
+else
+    echo "PHP is not installed. Please install PHP before proceeding."
+    exit 1
+fi
+
+# Check if composer command exists
+if ! command -v composer &> /dev/null; then
+    echo "Composer is not installed. Installing Composer..."
+    # Download Composer installer
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    # Install Composer
+    sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+    # Clean up
+    php -r "unlink('composer-setup.php');"
+    echo "Composer installation completed."
+else
+    echo "Composer is installed."
+fi
+
